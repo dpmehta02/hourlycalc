@@ -17,8 +17,7 @@ table.headline {
   width: 100%;
 }
 
-
-h1.jumbo {
+h1 {
   font-size: 4vw;
 }
 
@@ -35,8 +34,10 @@ th.equivalency {
 }
 
 .equivalency {
-  font-weight: bold;
-  animation: pulse 1.5s infinite;
+  font-size: 8vw;
+  text-align: center;
+  /* font-weight: bold; */
+  /* animation: pulse 1.5s infinite; */
   /* display: inline-block; */
 }
 
@@ -46,16 +47,16 @@ th.equivalency {
 
 
 
-h2 {
-  font-size: 3vw;
-}
+
+
+
 
 img.increment, img.decrement {
   height: 3vw;
   /* width: 3vw; */
 }
 
-.variablesRow {
+h2 {
   font-size: 3vw;
 }
 

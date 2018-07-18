@@ -17,19 +17,16 @@
   <body>
     <div class="container">
       <!-- Fade in from left to right, first annual, then equiv, than hourly (Right to left). Pulse once equiv every time slider ends, or assumption changes -->
-      <h1 class="jumbo">
+      <h1>
         <table class="headline">
           <tr>
             <th>Annual Salary</th>
-            <th></th>
+            <th rowspan="2"><div class="equivalency">=</div></th>
             <th>Hourly Rate</th>
           </tr>
           <tr>
             <th class="annual">
               <output id="annualOutput"></output>
-            </th>
-            <th class="equivalency">
-              <div class="equivalency">=</div>
             </th>
             <th class="hourly">
               <output id="hourlyOutput"></output>
@@ -38,6 +35,8 @@
         </table>
       </h1>
       <input type="range" min="50000" max="250000" step="5000" value="150000" id="annualInput" data-rangeslider> </input>
+
+
       <h2>Assumptions</h2>
       <div class="column">
         <div class="variablesRow">
