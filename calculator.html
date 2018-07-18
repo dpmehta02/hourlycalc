@@ -15,29 +15,42 @@
     <link rel="stylesheet" type="text/css" href="assets/calculator.css"/>
   </head>
   <body>
-    <div class="row">
-      <input type="range" min="50000" max="250000" step="5000" value="150000" id="annualInput" data-rangeslider>
-      <div class="calculator">
-        <h1>
-          <div class="annual">
-            <label>Annual Salary</label>
-            <output id="annualOutput"></output>
-          </div>
-          <div class="equivalency">=</div>
-          <div class="hourly">
-            <label>Hourly Rate</label>
-            <output id="hourlyOutput"></output>
-          </div>
-        </h1>
-        <h2>Assumptions</h2>
-        <div class="column">
-          <div class="variablesRow">
-            <!-- Adjust size/color of font to indicate norm (green = norm, reddish = outside range, dark red = very far outside range) -->
-            <label for="workDays">Work Days per Year: </label>
-            <button type="button" id="workDaysDecrement"><img src="assets/minus.png" /></button>
-            <output id="workDaysOutput" type="number" value="261"></output>
-            <button type="button" id="workDaysIncrement"><img src="assets/add.png" /></button>
-          </div>
+    <div class="container">
+      <!-- Fade in from left to right, first annual, then equiv, than hourly (Right to left). Pulse once equiv every time slider ends, or assumption changes -->
+      <h1 class="jumbo">
+        <table class="headline">
+          <tr>
+            <th>Annual Salary</th>
+            <th></th>
+            <th>Hourly Rate</th>
+          </tr>
+          <tr>
+            <th class="annual">
+              <output id="annualOutput"></output>
+            </th>
+            <th class="equivalency">
+              <div class="equivalency">=</div>
+            </th>
+            <th class="hourly">
+              <output id="hourlyOutput"></output>
+            </th>
+          </tr>
+        </table>
+      </h1>
+      <input type="range" min="50000" max="250000" step="5000" value="150000" id="annualInput" data-rangeslider> </input>
+      <h2>Assumptions</h2>
+      <div class="column">
+        <div class="variablesRow">
+          <label for="workDaysOutput">Work Days per Year: </label>
+          <button type="button" id="workDaysDecrement"><img class="decrement" src="assets/minus.png" /></button>
+          <output id="workDaysOutput" type="number" value="261"></output>
+          <button type="button" id="workDaysIncrement"><img class="increment" src="assets/increment.png" /></button>
+        </div>
+        <div class="variablesRow">
+          <label for="hoursPerWorkDayOutput">Working Hours per Day: </label>
+          <button type="button" id="hoursPerWorkDayDecrement"><img class="decrement" src="assets/minus.png" /></button>
+          <output id="hoursPerWorkDayOutput" type="number" value="8"></output>
+          <button type="button" id="hoursPerWorkDayIncrement"><img class="increment" src="assets/add.png" /></button>
         </div>
       </div>
     </div>
@@ -50,6 +63,8 @@
         // Assumptions for incrementing
         $workDaysOutput = $('output#workDaysOutput')[0];
         $startingWorkDays = 261;
+        $hoursPerWorkDayOutput = $('output#hoursPerWorkDayOutput')[0];
+        $startingHoursPerWorkDay = 8;
 
         // For ie8 support
         var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
@@ -62,13 +77,37 @@
           output[textContent] = prepend + Number(value).toLocaleString();
         }
 
-        // Update the increment/decrement, then adjust the hourly total
-        $("#workDaysIncrement").on('click', function (e) {
-          // Update element value
-          adjustHourly();
+        function adjustAndReturnTarget(element) {
+          id = element.currentTarget.id;
+          var minMaxLookup = {
+            'workDaysIncrement': { 'max': 365 },
+            'workDaysDecrement': { 'min': 0 },
+            'hoursPerWorkDayIncrement': { 'max': 24 },
+            'hoursPerWorkDayDecrement': { 'min': 0 },
+          }
+
+          var target = null;
+          if (id.includes('Increment')) {
+            target = element.target.parentElement.previousElementSibling;
+            if (target.value < minMaxLookup[id]['max']) { target.value++; }
+          } else if (id.includes('Decrement')) {
+            target = element.target.parentElement.nextElementSibling;
+            if (target.value > minMaxLookup[id]['min']) { target.value--; }
+          } else {
+            console.log('Uh oh. Something went wrong.');
+          }
+
+          return target;
+        }
+
+        // Increment/Decrement, then adjust the hourly total
+        $("#workDaysIncrement, #workDaysDecrement, #hoursPerWorkDayIncrement, #hoursPerWorkDayDecrement").on('click', function (e) {
+          var target = adjustAndReturnTarget(e);
+          valueOutput(target);
+          updateHourly();
         });
 
-        function adjustHourly() {
+        function updateHourly() {
           // Recalculate new hourly total
 
           // Assign it to the element
@@ -94,12 +133,12 @@
             valueOutput($hourlyOutput, currency = true);
             $workDaysOutput.value = $startingWorkDays;
             valueOutput($workDaysOutput);
+            $hoursPerWorkDayOutput.value = $startingHoursPerWorkDay;
+            valueOutput($hoursPerWorkDayOutput);
           },
 
           onSlide: function(position, value) {
-              // TODO: recalculate hourly based on assumptions
-              // console.log('onSlide');
-              // console.log('position: ' + position, 'value: ' + value);
+              updateHourly();
           },
 
         });

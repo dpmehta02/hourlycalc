@@ -2,51 +2,67 @@ body {
   background: #8E2DE2;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to left, #4A00E0, #8E2DE2);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to left, #4A00E0, #8E2DE2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-  padding-top: 125px;
-  text-align: center;
   color: white;
-
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-h1 {
-  font-size: 4vw;
-  display: inline-block;
+.container {
+  width: 80%;
+  height: auto;
+  padding-top: 75px;
+  margin: 0 auto;
 }
 
-h2 {
-  font-size: 3vw;
+table.headline {
+  width: 100%;
+}
+
+
+h1.jumbo {
+  font-size: 4vw;
+}
+
+th.annual {
+  width: 45%;
+}
+
+th.hourly {
+  width: 45%;
+}
+
+th.equivalency {
+  width: 10%;
 }
 
 .equivalency {
   font-weight: bold;
   animation: pulse 1.5s infinite;
-  display: inline-block;
+  /* display: inline-block; */
 }
 
-.calculator {
+
+
+
+
+
+
+h2 {
+  font-size: 3vw;
 }
 
-.row {
-  display: inline-block;
-  max-width: 70%;
+img.increment, img.decrement {
+  height: 3vw;
+  /* width: 3vw; */
 }
 
 .variablesRow {
-  font-size: 2vw;
+  font-size: 3vw;
 }
 
 @keyframes pulse {
   0%   {-webkit-transform: scale(1.25, 1.25);}
   50%  {-webkit-transform: scale(0.75, 0.75);}
   100% {-webkit-transform: scale(1.25, 1.25);}
-}
-
-output {
-  color: white;
-  font-size: 4vw;
-  display: inline-block;
 }
 
 /*! rangeslider.js - v2.3.0 | (c) 2016 @andreruffert | MIT license | https://github.com/andreruffert/rangeslider.js */
