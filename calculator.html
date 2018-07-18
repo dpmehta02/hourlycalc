@@ -17,20 +17,21 @@
   <body>
     <div class="container">
       <!-- Fade in from left to right, first annual, then equiv, than hourly (Right to left). Pulse once equiv every time slider ends, or assumption changes -->
+      <!-- Or maybe pulse the hourly total if assumption updated, both annual and hourly if slider adjusted, only equiv on page load -->
       <h1>
         <table class="headline">
           <tr>
-            <th>Annual Salary</th>
-            <th rowspan="2"><div class="equivalency">=</div></th>
-            <th>Hourly Rate</th>
+            <th class="salary">Annual Salary</th>
+            <th rowspan="2" class="equivalency">=</th>
+            <th class="hourly">Hourly Rate</th>
           </tr>
           <tr>
-            <th class="annual">
-              <output id="annualOutput"></output>
-            </th>
-            <th class="hourly">
-              <output id="hourlyOutput"></output>
-            </th>
+            <td>
+              <output id="annualOutput" class="headlineOutput"></output>
+            </td>
+            <td>
+              <output id="hourlyOutput" class="headlineOutput"></output>
+            </td>
           </tr>
         </table>
       </h1>

@@ -13,35 +13,32 @@ body {
   margin: 0 auto;
 }
 
-table.headline {
-  width: 100%;
-}
-
 h1 {
   font-size: 4vw;
 }
 
-th.annual {
+table {
+  text-align: center;
+  width: 100%;
+}
+
+th.salary {
   width: 45%;
+}
+
+th.equivalency {
+  font-size: 8vw;
+  width: 10%;
+  /* animation: pulse 1.5s infinite; */
 }
 
 th.hourly {
   width: 45%;
 }
 
-th.equivalency {
-  width: 10%;
+output.headlineOutput {
+  color: #00ff00;
 }
-
-.equivalency {
-  font-size: 8vw;
-  text-align: center;
-  /* font-weight: bold; */
-  /* animation: pulse 1.5s infinite; */
-  /* display: inline-block; */
-}
-
-
 
 
 
