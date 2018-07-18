@@ -32,11 +32,11 @@
         <h2>Assumptions</h2>
         <div class="column">
           <div class="variablesRow">
-            Adjust size/color of font to indicate norm (green = norm, reddish = outside range, dark red = very far outside range)
-            PTO: 5 (add increments https://dribbble.com/shots/1448458-Increment-buttons)
-          </div>
-          <div class="variablesRow">
-            Sick days: 5 (add slider)
+            <!-- Adjust size/color of font to indicate norm (green = norm, reddish = outside range, dark red = very far outside range) -->
+            <label for="workDays">Work Days per Year: </label>
+            <button type="button" id="workDaysDecrement"><img src="assets/minus.png" /></button>
+            <output id="workDaysOutput" type="number" value="261"></output>
+            <button type="button" id="workDaysIncrement"><img src="assets/add.png" /></button>
           </div>
         </div>
       </div>
@@ -47,32 +47,57 @@
         $startingAnnual = 150000;
         $hourlyOutput = $('output#hourlyOutput')[0];
         $startingHourly = 100;
+        // Assumptions for incrementing
+        $workDaysOutput = $('output#workDaysOutput')[0];
+        $startingWorkDays = 261;
 
         // For ie8 support
         var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
 
         // Helpers
-        function valueOutput(element) {
+        function valueOutput(element, currency = null) {
           var value = element.value;
           var output = element.parentNode.getElementsByTagName('output')[0] || element.parentNode.parentNode.getElementsByTagName('output')[0];
-          output[textContent] = '$' + Number(value).toLocaleString();
+          var prepend = currency ? '$' : ''
+          output[textContent] = prepend + Number(value).toLocaleString();
+        }
+
+        // Update the increment/decrement, then adjust the hourly total
+        $("#workDaysIncrement").on('click', function (e) {
+          // Update element value
+          adjustHourly();
+        });
+
+        function adjustHourly() {
+          // Recalculate new hourly total
+
+          // Assign it to the element
+          $hourlyOutput.value = 150;
+
+          // Update the DOM
+          valueOutput($hourlyOutput, currency = true);
         }
 
         $(document).on('input', 'input[type="range"]#annualInput, [data-rangeslider]', function(e) {
-          valueOutput(e.target);
+          valueOutput(e.target, currency = true);
         });
+
+        // On any assumption's adjustment, recalculate hourly
 
         // Initialize range slider
         $('input[type="range"]#annualInput').rangeslider({
           polyfill: false,
           onInit: function() {
             $annualOutput.value = $startingAnnual;
-            valueOutput($annualOutput);
+            valueOutput($annualOutput, currency = true);
             $hourlyOutput.value = $startingHourly;
-            valueOutput($hourlyOutput);
+            valueOutput($hourlyOutput, currency = true);
+            $workDaysOutput.value = $startingWorkDays;
+            valueOutput($workDaysOutput);
           },
 
           onSlide: function(position, value) {
+              // TODO: recalculate hourly based on assumptions
               // console.log('onSlide');
               // console.log('position: ' + position, 'value: ' + value);
           },
