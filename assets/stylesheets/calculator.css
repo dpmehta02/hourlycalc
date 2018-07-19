@@ -55,6 +55,10 @@ output.assumption-data, input.assumption-data {
   vertical-align: middle;
 }
 
+th.assumptions-label {
+  color: aqua;
+}
+
 /*! rangeslider.js - v2.3.0 | (c) 2016 @andreruffert | MIT license | https://github.com/andreruffert/rangeslider.js */
 .rangeslider,
 .rangeslider__fill {
