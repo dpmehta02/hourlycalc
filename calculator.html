@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="/favicon.ico">
+    <!-- TODO: add favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
     <meta name="referrer" content="origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convert annual salary into hourly rate</title>
@@ -82,6 +83,15 @@
             <input type="image" id="nonBillableIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
+        <tr><th class="assumptions-label">Sick Days</th></tr>
+        <tr>
+          <td>
+            <input type="image" id="sickDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="sickOutput" type="number" value="1" class="assumption-data"></output>
+            <input type="image" id="sickIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
+
       </table>
     </div>
     <script>
@@ -105,6 +115,8 @@
         $startingPto = 15;
         $holidaysOutput = $('output#holidaysOutput')[0];
         $startingHolidays = 10;
+        $sickOutput = $('output#sickOutput')[0];
+        $startingSick = 5;
 
         // Helpers
         function valueOutput(element, currency = null) {
@@ -121,14 +133,16 @@
             'workHoursIncrement': 24,
             'nonBillableIncrement': 24, // Should be capped by 24 - Current Work Hours/Day?
             'ptoIncrement': 40,
-            'holidaysIncrement': 40
+            'holidaysIncrement': 40,
+            'sickIncrement': 25
           }
           var mins = {
             'workDaysDecrement': 0,
             'workHoursDecrement': 0,
             'nonBillableDecrement': 0,
             'ptoDecrement': 0,
-            'holidaysDecrement': 0
+            'holidaysDecrement': 0,
+            'sickDecrement': 0
           }
 
           var target = null;
@@ -148,7 +162,7 @@
         // Increment/Decrement, then update the hourly total
         const incrementDecrementIds = "#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, \
           #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement, #ptoIncrement, #ptoDecrement, \
-          #holidaysIncrement, #holidaysDecrement"
+          #holidaysIncrement, #holidaysDecrement, #sickIncrement, #sickDecrement"
         $(incrementDecrementIds).on('click', function (e) {
           var target = adjustAndReturnTarget(e);
           valueOutput(target);
@@ -188,6 +202,8 @@
             valueOutput($ptoOutput);
             $holidaysOutput.value = $startingHolidays;
             valueOutput($holidaysOutput);
+            $sickOutput.value = $startingSick;
+            valueOutput($sickOutput);
           },
 
           onSlide: function(position, value) {
