@@ -41,26 +41,26 @@
       </h1>
       <input type="range" min="50000" max="250000" step="5000" value="150000" id="annualInput" data-rangeslider> </input>
       <table class="assumptions">
-        <tr><th class="assumptions-header"><h2>Assumptions</h2></th></tr>
-        <tr><th class="assumptions-label">Paid Time Off (Days)</th></tr>
+        <tr><th class="assumptions-header" colspan="2"><h2>Assumptions</h2></th></tr>
         <tr>
-          <td>
+          <td class="label">PTO (Days)</td>
+          <td class="data">
             <input type="image" id="ptoDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
             <output id="ptoOutput" type="number" value="15" class="assumption-data"></output>
             <input type="image" id="ptoIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
-        <tr><th class="assumptions-label">National Holidays</th></tr>
         <tr>
-          <td>
+          <td class="label">National Holidays</td>
+          <td class="data">
             <input type="image" id="holidaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
             <output id="holidaysOutput" type="number" value="15" class="assumption-data"></output>
             <input type="image" id="holidaysIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
-        <tr><th class="assumptions-label">Work Days / Year</th></tr>
         <tr>
-          <td>
+          <td class="label">Work Days / Year</td>
+          <td class="data">
             <!-- TODO: add tooltips for assumptions (e.g., citations) -->
             <input type="image" id="workDaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
             <output id="workDaysOutput" type="number" value="261" class="assumption-data"></output>
@@ -68,25 +68,25 @@
           </td>
         </tr>
         <!-- TODO: combine work hours/day and non-billable into one range slider of 24 hours w/ one range billable, other non-billable, rest non-work -->
-        <tr><th class="assumptions-label">Work Hours / Day</th></tr>
         <tr>
-          <td>
+          <td class="label">Work Hours / Day</td>
+          <td class="data">
             <input type="image" id="workHoursDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
             <output id="workHoursOutput" type="number" value="8" class="assumption-data"></output>
             <input type="image" id="workHoursIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
-        <tr><th class="assumptions-label">Non-Billable Hours / Day</th></tr>
         <tr>
-          <td>
+          <td class="label">Non-Billable Hours / Day</td>
+          <td class="data">
             <input type="image" id="nonBillableDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
             <output id="nonBillableOutput" type="number" value="1" class="assumption-data"></output>
             <input type="image" id="nonBillableIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
-        <tr><th class="assumptions-label">Sick Days</th></tr>
         <tr>
-          <td>
+          <td class="label">Sick Days</td>
+          <td class="data">
             <input type="image" id="sickDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
             <output id="sickOutput" type="number" value="1" class="assumption-data"></output>
             <input type="image" id="sickIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />

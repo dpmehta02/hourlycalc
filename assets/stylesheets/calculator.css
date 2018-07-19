@@ -14,16 +14,20 @@ body {
   margin: 0 auto;
 }
 
-table {
+table.headline {
   text-align: center;
   width: 100%;
 }
 
-th.salary {
+table.headline th.salary {
   width: 45%;
 }
 
-th.equivalency {
+table.headline th.hourly {
+  width: 45%;
+}
+
+table.headline th.equivalency {
   font-size: 8vw;
   width: 10%;
   /* animation: pulse 1.5s infinite; */
@@ -35,32 +39,44 @@ th.equivalency {
   100% {-webkit-transform: scale(1.25, 1.25);}
 }
 
-th.hourly {
-  width: 45%;
+table.assumptions {
+  padding-top: 5%;
+  width: 100%;
 }
 
-output.headlineOutput {
+table.assumptions output.headlineOutput {
   color: #00ff00;
 }
 
-table.assumptions {
-  padding-top: 5%;
-}
-
-th.assumptions-header {
+table.assumptions th.assumptions-header {
   color: gold;
 }
 
-output.assumption-data, input.assumption-data {
+table.assumptions output.assumption-data, table.assumptions input.assumption-data {
   vertical-align: middle;
 }
 
-output.assumption-data {
+table.assumptions output.data {
   font-weight: bold;
 }
 
-th.assumptions-label {
+table.assumptions th.assumptions-label {
   color: aqua;
+}
+
+table.assumptions td.label {
+  color: aqua;
+  font-weight: bold;
+  text-align: right;
+  width: 50%;
+  padding-right: 3%;
+}
+
+table.assumptions td.data {
+  width: 50%;
+  text-align: left;
+  padding-left: 3%;
+  font-weight: bold;
 }
 
 /*! rangeslider.js - v2.3.0 | (c) 2016 @andreruffert | MIT license | https://github.com/andreruffert/rangeslider.js */
