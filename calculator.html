@@ -9,10 +9,12 @@
     <!--[if lt IE 9]>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
     <![endif]-->
-    <script src="assets/jquery.min.js"></script>
-    <script src="assets/rangeslider.min.js"></script>
-    <script src="assets/calculator.js"></script>
-    <link rel="stylesheet" type="text/css" href="assets/calculator.css"/>
+    <script src="assets/javascripts/jquery.min.js"></script>
+    <script src="assets/javascripts/rangeslider.min.js"></script>
+    <script src="assets/javascripts/calculator.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/stylesheets/calculator.css"/>
+    <!-- Add goog Analytics tracking -->
+    <!-- Increment/Decrement icons courtesy of Font Awesome: https://fontawesome.com/license -->
   </head>
   <body>
     <div class="container">
@@ -36,35 +38,39 @@
         </table>
       </h1>
       <input type="range" min="50000" max="250000" step="5000" value="150000" id="annualInput" data-rangeslider> </input>
-
-
-      <h2>Assumptions</h2>
-      <div class="column">
-        <div class="variablesRow">
-          <label for="workDaysOutput">Work Days per Year: </label>
-          <button type="button" id="workDaysDecrement"><img class="decrement" src="assets/minus.png" /></button>
-          <output id="workDaysOutput" type="number" value="261"></output>
-          <button type="button" id="workDaysIncrement"><img class="increment" src="assets/increment.png" /></button>
-        </div>
-        <div class="variablesRow">
-          <label for="hoursPerWorkDayOutput">Working Hours per Day: </label>
-          <button type="button" id="hoursPerWorkDayDecrement"><img class="decrement" src="assets/minus.png" /></button>
-          <output id="hoursPerWorkDayOutput" type="number" value="8"></output>
-          <button type="button" id="hoursPerWorkDayIncrement"><img class="increment" src="assets/add.png" /></button>
-        </div>
-      </div>
+      <table class="assumptions">
+        <tr><th class="assumptions-header"><h2>Assumptions</h2></th></tr>
+        <tr><th>Work Days / Year</th></tr>
+        <tr>
+          <td>
+            <!-- TODO: add tooltips for assumptions (e.g., citations) -->
+            <input type="image" id="workDaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="workDaysOutput" type="number" value="261" class="assumption-data"></output>
+            <input type="image" id="workDaysIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
+        <tr><th>Work Hours / Day</th></tr>
+        <tr>
+          <td>
+            <input type="image" id="workHoursDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="workHoursOutput" type="number" value="8" class="assumption-data"></output>
+            <input type="image" id="workHoursIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
+      </table>
     </div>
     <script>
       $(function() {
+        // Headline items
         $annualOutput = $('output#annualOutput')[0];
         $startingAnnual = 150000;
         $hourlyOutput = $('output#hourlyOutput')[0];
         $startingHourly = 100;
-        // Assumptions for incrementing
+        // Assumptions
         $workDaysOutput = $('output#workDaysOutput')[0];
         $startingWorkDays = 261;
-        $hoursPerWorkDayOutput = $('output#hoursPerWorkDayOutput')[0];
-        $startingHoursPerWorkDay = 8;
+        $workHoursOutput = $('output#workHoursOutput')[0];
+        $startingWorkHours = 8;
 
         // For ie8 support
         var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
@@ -82,16 +88,16 @@
           var minMaxLookup = {
             'workDaysIncrement': { 'max': 365 },
             'workDaysDecrement': { 'min': 0 },
-            'hoursPerWorkDayIncrement': { 'max': 24 },
-            'hoursPerWorkDayDecrement': { 'min': 0 },
+            'workHoursIncrement': { 'max': 24 },
+            'workHoursDecrement': { 'min': 0 },
           }
 
           var target = null;
           if (id.includes('Increment')) {
-            target = element.target.parentElement.previousElementSibling;
+            target = element.target.previousElementSibling;
             if (target.value < minMaxLookup[id]['max']) { target.value++; }
           } else if (id.includes('Decrement')) {
-            target = element.target.parentElement.nextElementSibling;
+            target = element.target.nextElementSibling;
             if (target.value > minMaxLookup[id]['min']) { target.value--; }
           } else {
             console.log('Uh oh. Something went wrong.');
@@ -100,15 +106,16 @@
           return target;
         }
 
-        // Increment/Decrement, then adjust the hourly total
-        $("#workDaysIncrement, #workDaysDecrement, #hoursPerWorkDayIncrement, #hoursPerWorkDayDecrement").on('click', function (e) {
+        // Increment/Decrement, then update the hourly total
+        $("#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, #workHoursDecrement").on('click', function (e) {
           var target = adjustAndReturnTarget(e);
           valueOutput(target);
           updateHourly();
         });
 
+        // Recalculate the new hourly total and update the DOM
         function updateHourly() {
-          // Recalculate new hourly total
+          // Recalculate
 
           // Assign it to the element
           $hourlyOutput.value = 150;
@@ -121,9 +128,7 @@
           valueOutput(e.target, currency = true);
         });
 
-        // On any assumption's adjustment, recalculate hourly
-
-        // Initialize range slider
+        // Initialize range slider and outputs
         $('input[type="range"]#annualInput').rangeslider({
           polyfill: false,
           onInit: function() {
@@ -133,8 +138,8 @@
             valueOutput($hourlyOutput, currency = true);
             $workDaysOutput.value = $startingWorkDays;
             valueOutput($workDaysOutput);
-            $hoursPerWorkDayOutput.value = $startingHoursPerWorkDay;
-            valueOutput($hoursPerWorkDayOutput);
+            $workHoursOutput.value = $startingWorkHours;
+            valueOutput($workHoursOutput);
           },
 
           onSlide: function(position, value) {
