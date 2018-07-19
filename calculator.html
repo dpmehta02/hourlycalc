@@ -101,6 +101,14 @@
             <input type="image" id="daysBetweenIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
+        <tr>
+          <td class="label">Monthly Insurance</td>
+          <td class="data">
+            <input type="image" id="insuranceDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="insuranceOutput" type="number" value="500" class="assumption-data"></output>
+            <input type="image" id="insuranceIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
       </table>
     </div>
     <script>
@@ -128,6 +136,10 @@
         $startingSick = 5;
         $daysBetweenOutput = $('output#daysBetweenOutput')[0];
         $startingDaysBetween = 3;
+        $insuranceOutput = $('output#insuranceOutput')[0];
+        $startingInsurance = 500;
+
+        $currencyOutputs = ['insuranceOutput']
 
         // TODO: finish this data structure and use it across functions so no duplication
         // const initialAssumptionOutputs = {
@@ -166,6 +178,12 @@
           valueOutput($sickOutput);
           $daysBetweenOutput.value = $startingDaysBetween;
           valueOutput($daysBetweenOutput);
+          $insuranceOutput.value = $startingInsurance;
+          valueOutput($insuranceOutput, currency = true);
+        }
+
+        function convertCurrencyIntoNumber(currency_string) {
+          return Number(currency_string.replace(/[$,]+/g,""));
         }
 
         function adjustAndReturnTarget(element) {
@@ -177,7 +195,8 @@
             'ptoIncrement': 40,
             'holidaysIncrement': 40,
             'sickIncrement': 25,
-            'daysBetweenIncrement': 14
+            'daysBetweenIncrement': 14,
+            'insuranceIncrement': 5000
           }
           var mins = {
             'workDaysDecrement': 0,
@@ -186,16 +205,31 @@
             'ptoDecrement': 0,
             'holidaysDecrement': 0,
             'sickDecrement': 0,
-            'daysBetweenDecrement': 0
+            'daysBetweenDecrement': 0,
+            'insuranceDecrement': 0
           }
 
+          // TODO: Refactor
           var target = null;
+          var step = 1;
           if (id.includes('Increment')) {
             target = element.target.previousElementSibling;
-            if (target.value < maxes[id]) { target.value++; }
+            if ($currencyOutputs.includes(target.id)) {
+              target.value = convertCurrencyIntoNumber(target.value);
+              step = 100;
+            }
+            if (target.value < maxes[id]) {
+              target.value = Number(target.value) + step;
+            }
           } else if (id.includes('Decrement')) {
             target = element.target.nextElementSibling;
-            if (target.value > mins[id]) { target.value--; }
+            if ($currencyOutputs.includes(target.id)) {
+              target.value = convertCurrencyIntoNumber(target.value);
+              step = 100;
+            }
+            if (target.value > mins[id]) {
+              target.value = Number(target.value) - step;
+            }
           } else {
             console.log('Uh oh. Something went wrong.');
           }
@@ -207,10 +241,11 @@
         const incrementDecrementIds = "#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, \
           #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement, #ptoIncrement, #ptoDecrement, \
           #holidaysIncrement, #holidaysDecrement, #sickIncrement, #sickDecrement, #daysBetweenIncrement, \
-          #daysBetweenDecrement"
+          #daysBetweenDecrement, #insuranceIncrement, #insuranceDecrement"
         $(incrementDecrementIds).on('click', function (e) {
           var target = adjustAndReturnTarget(e);
-          valueOutput(target);
+          var currency = $currencyOutputs.includes(target.id) ? true : null;
+          valueOutput(target, currency);
           updateHourly();
         });
 
