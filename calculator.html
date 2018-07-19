@@ -146,7 +146,10 @@
         }
 
         // Increment/Decrement, then update the hourly total
-        $("#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement, #ptoIncrement, #ptoDecrement, #holidaysIncrement, #holidaysDecrement").on('click', function (e) {
+        const incrementDecrementIds = "#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, \
+          #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement, #ptoIncrement, #ptoDecrement, \
+          #holidaysIncrement, #holidaysDecrement"
+        $(incrementDecrementIds).on('click', function (e) {
           var target = adjustAndReturnTarget(e);
           valueOutput(target);
           updateHourly();
