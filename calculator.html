@@ -42,6 +42,7 @@
       <input type="range" min="50000" max="250000" step="5000" value="150000" id="annualInput" data-rangeslider> </input>
       <table class="assumptions">
         <tr><th class="assumptions-header" colspan="2"><h2>Assumptions</h2></th></tr>
+        <!-- Align increments on right side ... -->
         <tr>
           <td class="label">PTO (Days)</td>
           <td class="data">
@@ -92,7 +93,14 @@
             <input type="image" id="sickIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
-
+        <tr>
+          <td class="label">Days between contracts / Month</td>
+          <td class="data">
+            <input type="image" id="daysBetweenDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="daysBetweenOutput" type="number" value="3" class="assumption-data"></output>
+            <input type="image" id="daysBetweenIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
       </table>
     </div>
     <script>
@@ -118,6 +126,8 @@
         $startingHolidays = 10;
         $sickOutput = $('output#sickOutput')[0];
         $startingSick = 5;
+        $daysBetweenOutput = $('output#daysBetweenOutput')[0];
+        $startingDaysBetween = 3;
 
         // TODO: finish this data structure and use it across functions so no duplication
         // const initialAssumptionOutputs = {
@@ -154,6 +164,8 @@
           valueOutput($holidaysOutput);
           $sickOutput.value = $startingSick;
           valueOutput($sickOutput);
+          $daysBetweenOutput.value = $startingDaysBetween;
+          valueOutput($daysBetweenOutput);
         }
 
         function adjustAndReturnTarget(element) {
@@ -164,7 +176,8 @@
             'nonBillableIncrement': 24, // Should be capped by 24 - Current Work Hours/Day?
             'ptoIncrement': 40,
             'holidaysIncrement': 40,
-            'sickIncrement': 25
+            'sickIncrement': 25,
+            'daysBetweenIncrement': 14
           }
           var mins = {
             'workDaysDecrement': 0,
@@ -172,7 +185,8 @@
             'nonBillableDecrement': 0,
             'ptoDecrement': 0,
             'holidaysDecrement': 0,
-            'sickDecrement': 0
+            'sickDecrement': 0,
+            'daysBetweenDecrement': 0
           }
 
           var target = null;
@@ -192,7 +206,8 @@
         // Increment/Decrement, then update the hourly total
         const incrementDecrementIds = "#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, \
           #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement, #ptoIncrement, #ptoDecrement, \
-          #holidaysIncrement, #holidaysDecrement, #sickIncrement, #sickDecrement"
+          #holidaysIncrement, #holidaysDecrement, #sickIncrement, #sickDecrement, #daysBetweenIncrement, \
+          #daysBetweenDecrement"
         $(incrementDecrementIds).on('click', function (e) {
           var target = adjustAndReturnTarget(e);
           valueOutput(target);
