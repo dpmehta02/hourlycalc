@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="assets/images/favicon.ico">
     <meta name="referrer" content="origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convert annual salary into hourly rate</title>
+    <title>Convert your annual salary into an hourly rate.</title>
     <!--[if lt IE 9]>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
     <![endif]-->
@@ -19,6 +19,7 @@
   </head>
   <body>
     <div class="container">
+      <!-- <h3>Convert your annual salary into an hourly rate.</h3> -->
       <!-- Fade in from left to right, first annual, then equiv, than hourly (Right to left). Pulse once equiv every time slider ends, or assumption changes -->
       <!-- Or maybe pulse the hourly total if assumption updated, both annual and hourly if slider adjusted, only equiv on page load -->
       <h1>
@@ -118,12 +119,41 @@
         $sickOutput = $('output#sickOutput')[0];
         $startingSick = 5;
 
+        // TODO: finish this data structure and use it across functions so no duplication
+        // const initialAssumptionOutputs = {
+        //   'workDays': {
+        //     'starting': 261,
+        //     'max': 365,
+        //     'min': 0,
+        //     currency: false
+        //   }
+        // }
+
         // Helpers
         function valueOutput(element, currency = null) {
           var value = element.value;
           var output = element.parentNode.getElementsByTagName('output')[0] || element.parentNode.parentNode.getElementsByTagName('output')[0];
           var prepend = currency ? '$' : ''
           output[textContent] = prepend + Number(value).toLocaleString();
+        }
+
+        function initializeOutputs() {
+          $annualOutput.value = $startingAnnual;
+          valueOutput($annualOutput, currency = true);
+          $hourlyOutput.value = $startingHourly;
+          valueOutput($hourlyOutput, currency = true);
+          $workDaysOutput.value = $startingWorkDays;
+          valueOutput($workDaysOutput);
+          $workHoursOutput.value = $startingWorkHours;
+          valueOutput($workHoursOutput);
+          $nonBillableOutput.value = $startingNonBillable;
+          valueOutput($nonBillableOutput);
+          $ptoOutput.value = $startingPto;
+          valueOutput($ptoOutput);
+          $holidaysOutput.value = $startingHolidays;
+          valueOutput($holidaysOutput);
+          $sickOutput.value = $startingSick;
+          valueOutput($sickOutput);
         }
 
         function adjustAndReturnTarget(element) {
@@ -188,22 +218,7 @@
         $('input[type="range"]#annualInput').rangeslider({
           polyfill: false,
           onInit: function() {
-            $annualOutput.value = $startingAnnual;
-            valueOutput($annualOutput, currency = true);
-            $hourlyOutput.value = $startingHourly;
-            valueOutput($hourlyOutput, currency = true);
-            $workDaysOutput.value = $startingWorkDays;
-            valueOutput($workDaysOutput);
-            $workHoursOutput.value = $startingWorkHours;
-            valueOutput($workHoursOutput);
-            $nonBillableOutput.value = $startingNonBillable;
-            valueOutput($nonBillableOutput);
-            $ptoOutput.value = $startingPto;
-            valueOutput($ptoOutput);
-            $holidaysOutput.value = $startingHolidays;
-            valueOutput($holidaysOutput);
-            $sickOutput.value = $startingSick;
-            valueOutput($sickOutput);
+            initializeOutputs();
           },
 
           onSlide: function(position, value) {
