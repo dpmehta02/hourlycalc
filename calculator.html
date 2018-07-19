@@ -40,6 +40,22 @@
       <input type="range" min="50000" max="250000" step="5000" value="150000" id="annualInput" data-rangeslider> </input>
       <table class="assumptions">
         <tr><th class="assumptions-header"><h2>Assumptions</h2></th></tr>
+        <tr><th class="assumptions-label">Paid Time Off (Days)</th></tr>
+        <tr>
+          <td>
+            <input type="image" id="ptoDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="ptoOutput" type="number" value="15" class="assumption-data"></output>
+            <input type="image" id="ptoIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
+        <tr><th class="assumptions-label">National Holidays</th></tr>
+        <tr>
+          <td>
+            <input type="image" id="holidaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="holidaysOutput" type="number" value="15" class="assumption-data"></output>
+            <input type="image" id="holidaysIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
         <tr><th class="assumptions-label">Work Days / Year</th></tr>
         <tr>
           <td>
@@ -85,6 +101,10 @@
         $startingWorkHours = 8;
         $nonBillableOutput = $('output#nonBillableOutput')[0];
         $startingNonBillable = 1;
+        $ptoOutput = $('output#ptoOutput')[0];
+        $startingPto = 15;
+        $holidaysOutput = $('output#holidaysOutput')[0];
+        $startingHolidays = 10;
 
         // Helpers
         function valueOutput(element, currency = null) {
@@ -99,12 +119,16 @@
           var maxes = {
             'workDaysIncrement': 365,
             'workHoursIncrement': 24,
-            'nonBillableIncrement': 24 // Should be capped by 24 - Current Work Hours/Day?
+            'nonBillableIncrement': 24, // Should be capped by 24 - Current Work Hours/Day?
+            'ptoIncrement': 40,
+            'holidaysIncrement': 40
           }
           var mins = {
             'workDaysDecrement': 0,
             'workHoursDecrement': 0,
-            'nonBillableDecrement': 0
+            'nonBillableDecrement': 0,
+            'ptoDecrement': 0,
+            'holidaysDecrement': 0
           }
 
           var target = null;
@@ -122,8 +146,7 @@
         }
 
         // Increment/Decrement, then update the hourly total
-        // static incrementDecrementIds = "#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement";
-        $("#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement").on('click', function (e) {
+        $("#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement, #ptoIncrement, #ptoDecrement, #holidaysIncrement, #holidaysDecrement").on('click', function (e) {
           var target = adjustAndReturnTarget(e);
           valueOutput(target);
           updateHourly();
@@ -158,6 +181,10 @@
             valueOutput($workHoursOutput);
             $nonBillableOutput.value = $startingNonBillable;
             valueOutput($nonBillableOutput);
+            $ptoOutput.value = $startingPto;
+            valueOutput($ptoOutput);
+            $holidaysOutput.value = $startingHolidays;
+            valueOutput($holidaysOutput);
           },
 
           onSlide: function(position, value) {
