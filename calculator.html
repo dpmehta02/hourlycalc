@@ -45,16 +45,25 @@
           <td>
             <!-- TODO: add tooltips for assumptions (e.g., citations) -->
             <input type="image" id="workDaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <b><output id="workDaysOutput" type="number" value="261" class="assumption-data"></output></b>
+            <output id="workDaysOutput" type="number" value="261" class="assumption-data"></output>
             <input type="image" id="workDaysIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
+        <!-- TODO: combine work hours/day and non-billable into one range slider of 24 hours w/ one range billable, other non-billable, rest non-work -->
         <tr><th class="assumptions-label">Work Hours / Day</th></tr>
         <tr>
           <td>
             <input type="image" id="workHoursDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <b><output id="workHoursOutput" type="number" value="8" class="assumption-data"></output></b>
+            <output id="workHoursOutput" type="number" value="8" class="assumption-data"></output>
             <input type="image" id="workHoursIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
+        <tr><th class="assumptions-label">Non-Billable Hours / Day</th></tr>
+        <tr>
+          <td>
+            <input type="image" id="nonBillableDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="nonBillableOutput" type="number" value="1" class="assumption-data"></output>
+            <input type="image" id="nonBillableIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
       </table>
@@ -74,6 +83,8 @@
         $startingWorkDays = 261;
         $workHoursOutput = $('output#workHoursOutput')[0];
         $startingWorkHours = 8;
+        $nonBillableOutput = $('output#nonBillableOutput')[0];
+        $startingNonBillable = 1;
 
         // Helpers
         function valueOutput(element, currency = null) {
@@ -87,11 +98,13 @@
           id = element.currentTarget.id;
           var maxes = {
             'workDaysIncrement': 365,
-            'workHoursIncrement': 24
+            'workHoursIncrement': 24,
+            'nonBillableIncrement': 24 // Should be capped by 24 - Current Work Hours/Day?
           }
           var mins = {
             'workDaysDecrement': 0,
-            'workHoursDecrement': 0
+            'workHoursDecrement': 0,
+            'nonBillableDecrement': 0
           }
 
           var target = null;
@@ -109,7 +122,8 @@
         }
 
         // Increment/Decrement, then update the hourly total
-        $("#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, #workHoursDecrement").on('click', function (e) {
+        // static incrementDecrementIds = "#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement";
+        $("#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement").on('click', function (e) {
           var target = adjustAndReturnTarget(e);
           valueOutput(target);
           updateHourly();
@@ -142,6 +156,8 @@
             valueOutput($workDaysOutput);
             $workHoursOutput.value = $startingWorkHours;
             valueOutput($workHoursOutput);
+            $nonBillableOutput.value = $startingNonBillable;
+            valueOutput($nonBillableOutput);
           },
 
           onSlide: function(position, value) {

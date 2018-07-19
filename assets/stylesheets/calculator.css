@@ -55,6 +55,10 @@ output.assumption-data, input.assumption-data {
   vertical-align: middle;
 }
 
+output.assumption-data {
+  font-weight: bold;
+}
+
 th.assumptions-label {
   color: aqua;
 }
