@@ -40,97 +40,84 @@
       </h1>
       <input type="range" min="50000" max="250000" step="5000" value="150000" id="annualInput" data-rangeslider> </input>
       <table class="assumptions">
-        <tr><th class="assumptions-header" colspan="2"><h2>Assumptions</h2></th></tr>
-        <!-- Align increments on right side ... -->
+        <tr><th class="assumptions-header" colspan="5"><h2>Assumptions</h2></th></tr>
         <tr>
           <td class="label">PTO (Days)</td>
-          <td class="data">
-            <input type="image" id="ptoDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="ptoOutput" type="number" value="15" class="assumption-data"></output>
-            <input type="image" id="ptoIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="ptoDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="ptoOutput" type="number" value="15" class="assumption-data"></output></td>
+          <td class="increment"><input type="image" id="ptoIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">National Holidays</td>
-          <td class="data">
-            <input type="image" id="holidaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="holidaysOutput" type="number" value="15" class="assumption-data"></output>
-            <input type="image" id="holidaysIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="holidaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="holidaysOutput" type="number" value="15" class="assumption-data"></output></td>
+          <td class="increment"><input type="image" id="holidaysIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">Work Days / Year</td>
-          <td class="data">
-            <!-- TODO: add tooltips for assumptions (e.g., citations) -->
-            <input type="image" id="workDaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="workDaysOutput" type="number" value="261" class="assumption-data"></output>
-            <input type="image" id="workDaysIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="workDaysDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="workDaysOutput" type="number" value="261" class="assumption-data"></output></td>
+          <td class="increment"><input type="image" id="workDaysIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <!-- TODO: combine work hours/day and non-billable into one range slider of 24 hours w/ one range billable, other non-billable, rest non-work -->
         <tr>
           <td class="label">Work Hours / Day</td>
-          <td class="data">
-            <input type="image" id="workHoursDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="workHoursOutput" type="number" value="8" class="assumption-data"></output>
-            <input type="image" id="workHoursIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="workHoursDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="workHoursOutput" type="number" value="8" class="assumption-data"></output></td>
+          <td class="increment"><input type="image" id="workHoursIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">Non-Billable Hours / Day</td>
-          <td class="data">
-            <input type="image" id="nonBillableDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="nonBillableOutput" type="number" value="1" class="assumption-data"></output>
-            <input type="image" id="nonBillableIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="nonBillableDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="nonBillableOutput" type="number" value="1" class="assumption-data"></output></td>
+          <td class="increment"><input type="image" id="nonBillableIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">Sick Days / Year</td>
-          <td class="data">
-            <input type="image" id="sickDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="sickOutput" type="number" value="1" class="assumption-data"></output>
-            <input type="image" id="sickIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="sickDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="sickOutput" type="number" value="1" class="assumption-data"></output></td>
+          <td class="increment"><input type="image" id="sickIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">Days between contracts / Month</td>
-          <td class="data">
-            <input type="image" id="daysBetweenDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="daysBetweenOutput" type="number" value="3" class="assumption-data"></output>
-            <input type="image" id="daysBetweenIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="daysBetweenDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="daysBetweenOutput" type="number" value="3" class="assumption-data"></output></td>
+          <td class="increment"><input type="image" id="daysBetweenIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">Monthly Insurance</td>
-          <td class="data">
-            <input type="image" id="insuranceDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="insuranceOutput" type="number" value="500" class="assumption-data currency"></output>
-            <input type="image" id="insuranceIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="insuranceDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="insuranceOutput" type="number" value="500" class="assumption-data currency"></output></td>
+          <td class="increment"><input type="image" id="insuranceIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">Self-employment Tax</td>
-          <td class="data">
-            <input type="image" id="employmentTaxDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="employmentTaxOutput" type="number" value="7" class="assumption-data percent"></output>
-            <input type="image" id="employmentTaxIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="employmentTaxDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="employmentTaxOutput" type="number" value="7" class="assumption-data percent"></output></td>
+          <td class="increment"><input type="image" id="employmentTaxIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">Yearly Equipment Cost</td>
-          <td class="data">
-            <input type="image" id="yearlyEquipmentDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="yearlyEquipmentOutput" type="number" value="2000" class="assumption-data currency"></output>
-            <input type="image" id="yearlyEquipmentIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="yearlyEquipmentDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="yearlyEquipmentOutput" type="number" value="2000" class="assumption-data currency"></output></td>
+          <td class="increment"><input type="image" id="yearlyEquipmentIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
         <tr>
           <td class="label">Yearly Bonus</td>
-          <td class="data">
-            <input type="image" id="bonusDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="bonusOutput" type="number" value="2000" class="assumption-data currency"></output>
-            <input type="image" id="bonusIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
-          </td>
+          <td class="decrement"><input type="image" id="bonusDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="data"><output id="bonusOutput" type="number" value="2000" class="assumption-data currency"></output></td>
+          <td class="increment"><input type="image" id="bonusIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" /></td>
+          <td class="empty"></td>
         </tr>
       </table>
     </div>

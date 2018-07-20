@@ -70,15 +70,25 @@ table.assumptions td.label {
   color: aqua;
   font-weight: bold;
   text-align: right;
-  width: 50%;
+  width: 55%;
   padding-right: 3%;
 }
 
 table.assumptions td.data {
-  width: 50%;
-  text-align: left;
-  padding-left: 3%;
+  width: 5%;
+  text-align: center;
   font-weight: bold;
+  padding-left: 0.5%;
+  padding-right: 0.5%;
+}
+
+table.assumptions td.increment, table.assumptions td.decrement {
+  width: 2.5%;
+  align-items: center;
+}
+
+table.assumptions td.empty {
+  width: 35%;
 }
 
 output.currency::before {
