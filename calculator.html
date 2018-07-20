@@ -85,7 +85,7 @@
           </td>
         </tr>
         <tr>
-          <td class="label">Sick Days</td>
+          <td class="label">Sick Days / Year</td>
           <td class="data">
             <input type="image" id="sickDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
             <output id="sickOutput" type="number" value="1" class="assumption-data"></output>
@@ -122,6 +122,14 @@
             <input type="image" id="yearlyEquipmentDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
             <output id="yearlyEquipmentOutput" type="number" value="2000" class="assumption-data currency"></output>
             <input type="image" id="yearlyEquipmentIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
+        <tr>
+          <td class="label">Yearly Bonus</td>
+          <td class="data">
+            <input type="image" id="bonusDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="bonusOutput" type="number" value="2000" class="assumption-data currency"></output>
+            <input type="image" id="bonusIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
       </table>
@@ -228,6 +236,14 @@
             'units': 'currency',
             'step': 100,
             'outputElementId': '#yearlyEquipmentOutput'
+          },
+          'bonus': {
+            'starting': 5000,
+            'max': 100000,
+            'min': 0,
+            'units': 'currency',
+            'step': 250,
+            'outputElementId': '#bonusOutput'
           }
         }
 
@@ -277,8 +293,9 @@
           const employmentTax = getNumericValueById($assumptions.employmentTax.outputElementId);
           var formattedEmploymentTax = employmentTax * 0.01 + 1;
           const yearlyEquipment = getNumericValueById($assumptions.yearlyEquipment.outputElementId);
+          const yearlyBonus = getNumericValueById($assumptions.bonus.outputElementId);
 
-          var numerator = (annualSalary + (monthlyInsurance * 12)) * formattedEmploymentTax + yearlyEquipment;
+          var numerator = (annualSalary + (monthlyInsurance * 12) + yearlyBonus) * formattedEmploymentTax + yearlyEquipment;
           var denominator = (workDays - pto - holidays - sickDays - (daysBetween * 12)) * (workHours - nonBillable);
 
           return Math.round(numerator / denominator);
