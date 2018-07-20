@@ -142,7 +142,7 @@
             'outputElementId': '#annualOutput'
           },
           'hourly': {
-            'starting': 100,
+            'starting': 125,
             'max': 100000,
             'min': 0,
             'units': 'currency',
@@ -238,13 +238,14 @@
           return $('output' + id)[0];
         }
 
+        function getNumericValueById(id) {
+          var element = getOutputElemById(id);
+          return castIntoFormattedNumber(element.value);
+        }
+
         function castIntoFormattedNumber(val) {
           if (typeof(val) === 'string') { val = Number(val.replace(/[$,%]+/g,"")); }
           return val;
-        }
-
-        function convertCurrencyIntoNumber(currency_string) {
-          return Number(currency_string.replace(/[$,]+/g,""));
         }
 
         function valueOutput(element) {
@@ -264,7 +265,23 @@
         }
 
         function recalculateHourly() {
-          return 150;
+          const annualSalary = getNumericValueById($assumptions.annual.outputElementId);
+          const workDays = getNumericValueById($assumptions.workDays.outputElementId);
+          const workHours = getNumericValueById($assumptions.workHours.outputElementId);
+          const nonBillable = getNumericValueById($assumptions.nonBillable.outputElementId);
+          const pto = getNumericValueById($assumptions.pto.outputElementId);
+          const holidays = getNumericValueById($assumptions.holidays.outputElementId);
+          const sickDays = getNumericValueById($assumptions.sick.outputElementId);
+          const daysBetween = getNumericValueById($assumptions.daysBetween.outputElementId);
+          const monthlyInsurance = getNumericValueById($assumptions.insurance.outputElementId);
+          const employmentTax = getNumericValueById($assumptions.employmentTax.outputElementId);
+          var formattedEmploymentTax = employmentTax * 0.01 + 1;
+          const yearlyEquipment = getNumericValueById($assumptions.yearlyEquipment.outputElementId);
+
+          var numerator = (annualSalary + (monthlyInsurance * 12)) * formattedEmploymentTax + yearlyEquipment;
+          var denominator = (workDays - pto - holidays - sickDays - (daysBetween * 12)) * (workHours - nonBillable);
+
+          return Math.round(numerator / denominator);
         }
 
         /*
