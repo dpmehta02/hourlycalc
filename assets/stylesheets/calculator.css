@@ -42,6 +42,8 @@ table.headline th.equivalency {
 table.assumptions {
   padding-top: 5%;
   width: 100%;
+  animation: fadein 3s forwards;
+  -webkit-animation: fadein 3s forwards;
 }
 
 table.assumptions output.headlineOutput {
@@ -163,7 +165,7 @@ td#hourlyOutput {
   -webkit-border-radius: 10px;
   border-radius: 10px;
   animation-delay: 3s;
-  animation: fadein 1s forwards;
+  animation: fadein 3s forwards;
   -webkit-animation: fadein 3s forwards;
 }
 
