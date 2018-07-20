@@ -108,6 +108,14 @@
             <input type="image" id="insuranceIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
+        <tr>
+          <td class="label">Self-employment Tax</td>
+          <td class="data">
+            <input type="image" id="employmentTaxDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="employmentTaxOutput" type="number" value="500" class="assumption-data percent"></output>
+            <input type="image" id="employmentTaxIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
       </table>
     </div>
     <script>
@@ -196,6 +204,14 @@
             'units': 'currency',
             'step': 50,
             'outputElementId': '#insuranceOutput'
+          },
+          'employmentTax': {
+            'starting': 7,
+            'max': 100,
+            'min': 0,
+            'units': 'percent',
+            'step': 0.5,
+            'outputElementId': '#employmentTaxOutput'
           }
         }
 

@@ -83,6 +83,9 @@ output.currency::before {
   content:"$"
 }
 
+output.percent::after {
+  content:"%"
+}
 
 #leftSlider {
     position: inherit;
