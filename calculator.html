@@ -116,31 +116,6 @@
         // For ie8 support
         var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
 
-        // Headline items
-        $annualOutput = $('output#annualOutput')[0];
-        $startingAnnual = 150000;
-        $hourlyOutput = $('output#hourlyOutput')[0];
-        $startingHourly = 100;
-        // Assumptions
-        $workDaysOutput = $('output#workDaysOutput')[0];
-        $startingWorkDays = 261;
-        $workHoursOutput = $('output#workHoursOutput')[0];
-        $startingWorkHours = 8;
-        $nonBillableOutput = $('output#nonBillableOutput')[0];
-        $startingNonBillable = 1;
-        $ptoOutput = $('output#ptoOutput')[0];
-        $startingPto = 15;
-        $holidaysOutput = $('output#holidaysOutput')[0];
-        $startingHolidays = 10;
-        $sickOutput = $('output#sickOutput')[0];
-        $startingSick = 5;
-        $daysBetweenOutput = $('output#daysBetweenOutput')[0];
-        $startingDaysBetween = 3;
-        $insuranceOutput = $('output#insuranceOutput')[0];
-        $startingInsurance = 500;
-
-        $currencyOutputs = ['insuranceOutput']
-
         const $assumptions = {
           'annual': {
             'starting': 150000,
@@ -148,7 +123,7 @@
             'min': 50000,
             'units': 'currency',
             'step': 5000,
-            'outptutElementId': '#annualOutput'
+            'outputElementId': '#annualOutput'
           },
           'hourly': {
             'starting': 100,
@@ -156,7 +131,7 @@
             'min': 0,
             'units': 'currency',
             'step': 1,
-            'outptutElementId': '#hourlyOutput'
+            'outputElementId': '#hourlyOutput'
           },
           'workDays': {
             'starting': 261,
@@ -164,7 +139,7 @@
             'min': 0,
             'units': 'days',
             'step': 1,
-            'outptutElementId': '#workDaysOutput'
+            'outputElementId': '#workDaysOutput'
           },
           'workHours': {
             'starting': 8,
@@ -172,7 +147,7 @@
             'min': 0,
             'units': 'hours',
             'step': 0.5,
-            'outptutElementId': '#workHoursOutput'
+            'outputElementId': '#workHoursOutput'
           },
           'nonBillable': {
             'starting': 1,
@@ -180,7 +155,7 @@
             'min': 0,
             'units': 'hours',
             'step': 0.5,
-            'outptutElementId': '#nonBillableOutput'
+            'outputElementId': '#nonBillableOutput'
           },
           'pto': {
             'starting': 15,
@@ -188,7 +163,7 @@
             'min': 0,
             'units': 'days',
             'step': 1,
-            'outptutElementId': '#ptoOutput'
+            'outputElementId': '#ptoOutput'
           },
           'holidays': {
             'starting': 10,
@@ -196,7 +171,7 @@
             'min': 0,
             'units': 'days',
             'step': 1,
-            'outptutElementId': '#holidaysOutput'
+            'outputElementId': '#holidaysOutput'
           },
           'sick': {
             'starting': 5,
@@ -204,7 +179,7 @@
             'min': 0,
             'units': 'days',
             'step': 1,
-            'outptutElementId': '#sickOutput'
+            'outputElementId': '#sickOutput'
           },
           'daysBetween': {
             'starting': 3,
@@ -212,7 +187,7 @@
             'min': 0,
             'units': 'days',
             'step': 1,
-            'outptutElementId': '#daysBetweenOutput'
+            'outputElementId': '#daysBetweenOutput'
           },
           'insurance': {
             'starting': 500,
@@ -220,7 +195,7 @@
             'min': 0,
             'units': 'currency',
             'step': 50,
-            'outptutElementId': '#insuranceOutput'
+            'outputElementId': '#insuranceOutput'
           }
         }
 
@@ -245,77 +220,44 @@
           return Number(currency_string.replace(/[$,]+/g,""));
         }
 
-        function adjustAndReturnTarget(element) {
-          id = element.currentTarget.id;
-          var maxes = {
-            'workDaysIncrement': 365,
-            'workHoursIncrement': 24,
-            'nonBillableIncrement': 24, // Should be capped by 24 - Current Work Hours/Day?
-            'ptoIncrement': 40,
-            'holidaysIncrement': 40,
-            'sickIncrement': 25,
-            'daysBetweenIncrement': 14,
-            'insuranceIncrement': 5000
-          }
-          var mins = {
-            'workDaysDecrement': 0,
-            'workHoursDecrement': 0,
-            'nonBillableDecrement': 0,
-            'ptoDecrement': 0,
-            'holidaysDecrement': 0,
-            'sickDecrement': 0,
-            'daysBetweenDecrement': 0,
-            'insuranceDecrement': 0
-          }
-
-          // TODO: Refactor
-          var target = null;
-          var step = 1;
-          if (id.includes('Increment')) {
-            target = element.target.previousElementSibling;
-            if ($currencyOutputs.includes(target.id)) {
-              target.value = convertCurrencyIntoNumber(target.value);
-              step = 100;
-            }
-            if (target.value < maxes[id]) {
-              target.value = Number(target.value) + step;
-            }
-          } else if (id.includes('Decrement')) {
-            target = element.target.nextElementSibling;
-            if ($currencyOutputs.includes(target.id)) {
-              target.value = convertCurrencyIntoNumber(target.value);
-              step = 100;
-            }
-            if (target.value > mins[id]) {
-              target.value = Number(target.value) - step;
-            }
-          } else {
-            console.log('Uh oh. Something went wrong.');
-          }
-
-          return target;
+        function castIntoFormattedNumber(val) {
+          if (typeof(val) === 'string') { val = Number(val.replace(/[$,%]+/g,"")); }
+          return val;
         }
 
-        // Increment/Decrement, then update the hourly total
-        const incrementDecrementIds = "#workDaysIncrement, #workDaysDecrement, #workHoursIncrement, \
-          #workHoursDecrement, #nonBillableIncrement, #nonBillableDecrement, #ptoIncrement, #ptoDecrement, \
-          #holidaysIncrement, #holidaysDecrement, #sickIncrement, #sickDecrement, #daysBetweenIncrement, \
-          #daysBetweenDecrement, #insuranceIncrement, #insuranceDecrement"
+        function getOutputElemById(id) {
+          return $('output' + id)[0];
+        }
+
+        function updateCorrespondingOutput(element) {
+          const eId = element.currentTarget.id;
+          const assumptionKey = /(.*)(Increment|Decrement)/.exec(eId)[1];
+          const assumptionData = $assumptions[assumptionKey];
+          var outputElement = getOutputElemById(assumptionData.outputElementId);
+          var numericValue = castIntoFormattedNumber(outputElement.value);
+          if (eId.includes('Increment') && numericValue < assumptionData.max) {
+            outputElement.value = Number(outputElement.value) + assumptionData.step;
+          } else if (eId.includes('Decrement') && numericValue > assumptionData.min) {
+              outputElement.value = Number(outputElement.value) - assumptionData.step;
+          }
+          valueOutput(outputElement);
+        }
+
+        var incrementDecrementIds = Object.keys($assumptions).map(x => '#' + x + 'Increment, ' + '#' + x + 'Decrement,' ).join(' ').slice(0, -1);
         $(incrementDecrementIds).on('click', function (e) {
-          var target = adjustAndReturnTarget(e);
-          valueOutput(target);
+          updateCorrespondingOutput(e);
           updateHourly();
         });
 
+        function recalculateHourly() {
+          return 150;
+        }
+
         // Recalculate the new hourly total and update the DOM
         function updateHourly() {
-          // Recalculate
-
-          // Assign it to the element
-          $hourlyOutput.value = 150;
-
-          // Update the DOM
-          valueOutput($hourlyOutput);
+          var hourlyOutput = getOutputElemById($assumptions.hourly.outputElementId)
+          hourlyOutput.value = recalculateHourly();
+          valueOutput(hourlyOutput);
         }
 
         $(document).on('input', 'input[type="range"]#annualInput, [data-rangeslider]', function(e) {
