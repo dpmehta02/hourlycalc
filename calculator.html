@@ -308,7 +308,9 @@
           if (eId.includes('Increment') && numericValue < assumptionData.max) {
             outputElement.value = numericValue + assumptionData.step;
           } else if (eId.includes('Decrement') && numericValue > assumptionData.min) {
-              outputElement.value = numericValue - assumptionData.step;
+            outputElement.value = numericValue - assumptionData.step;
+          } else {
+            return;
           }
           valueOutput(outputElement);
         }
