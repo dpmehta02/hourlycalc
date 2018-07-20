@@ -112,8 +112,16 @@
           <td class="label">Self-employment Tax</td>
           <td class="data">
             <input type="image" id="employmentTaxDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="employmentTaxOutput" type="number" value="500" class="assumption-data percent"></output>
+            <output id="employmentTaxOutput" type="number" value="7" class="assumption-data percent"></output>
             <input type="image" id="employmentTaxIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
+          </td>
+        </tr>
+        <tr>
+          <td class="label">Yearly Equipment Cost</td>
+          <td class="data">
+            <input type="image" id="yearlyEquipmentDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
+            <output id="yearlyEquipmentOutput" type="number" value="2000" class="assumption-data currency"></output>
+            <input type="image" id="yearlyEquipmentIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
       </table>
@@ -212,6 +220,14 @@
             'units': 'percent',
             'step': 0.5,
             'outputElementId': '#employmentTaxOutput'
+          },
+          'yearlyEquipment': {
+            'starting': 2000,
+            'max': 20000,
+            'min': 0,
+            'units': 'currency',
+            'step': 100,
+            'outputElementId': '#yearlyEquipmentOutput'
           }
         }
 
@@ -269,16 +285,16 @@
           var outputElement = getOutputElemById(assumptionData.outputElementId);
           var numericValue = castIntoFormattedNumber(outputElement.value);
           if (eId.includes('Increment') && numericValue < assumptionData.max) {
-            outputElement.value = Number(outputElement.value) + assumptionData.step;
+            outputElement.value = numericValue + assumptionData.step;
           } else if (eId.includes('Decrement') && numericValue > assumptionData.min) {
-              outputElement.value = Number(outputElement.value) - assumptionData.step;
+              outputElement.value = numericValue - assumptionData.step;
           }
           valueOutput(outputElement);
         }
 
         // Recalculate the new hourly total and update the DOM
         function updateHourly() {
-          var hourlyOutput = getOutputElemById($assumptions.hourly.outputElementId)
+          var hourlyOutput = getOutputElemById($assumptions.hourly.outputElementId);
           hourlyOutput.value = recalculateHourly();
           valueOutput(hourlyOutput);
         }
