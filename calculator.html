@@ -25,15 +25,15 @@
       <h1>
         <table class="headline">
           <tr>
-            <th class="salary">Annual Salary</th>
+            <th class="salary left-slide-in" id="leftSlider">Annual Salary</th>
             <th rowspan="2" class="equivalency">=</th>
-            <th class="hourly">Hourly Rate</th>
+            <th class="hourly right-slide-in" id="rightSlider">Hourly Rate</th>
           </tr>
           <tr>
-            <td>
+            <td id="annualOutput" class="left-slide-in">
               <output id="annualOutput" class="headlineOutput currency"></output>
             </td>
-            <td>
+            <td id="hourlyOutput" class="right-slide-in">
               <output id="hourlyOutput" class="headlineOutput currency"></output>
             </td>
           </tr>
@@ -151,7 +151,7 @@
             'outptutElementId': '#annualOutput'
           },
           'hourly': {
-            'starting': 0,
+            'starting': 100,
             'max': 100000,
             'min': 0,
             'units': 'currency',
