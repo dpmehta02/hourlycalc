@@ -20,8 +20,7 @@
   <body>
     <div class="container">
       <!-- <h3>Convert your annual salary into an hourly rate.</h3> -->
-      <!-- Fade in from left to right, first annual, then equiv, than hourly (Right to left). Pulse once equiv every time slider ends, or assumption changes -->
-      <!-- Or maybe pulse the hourly total if assumption updated, both annual and hourly if slider adjusted, only equiv on page load -->
+      <!-- Pulse the hourly total (and color quickly) if assumption updated, both annual and hourly if slider adjusted, only equiv on page load -->
       <h1>
         <table class="headline">
           <tr>
@@ -116,6 +115,7 @@
         // For ie8 support
         var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
 
+        // Core data structure for assumptions
         const $assumptions = {
           'annual': {
             'starting': 150000,
@@ -199,7 +199,22 @@
           }
         }
 
-        // Update the DOM with the new value
+        /*
+         * Helpers
+         **/
+        function getOutputElemById(id) {
+          return $('output' + id)[0];
+        }
+
+        function castIntoFormattedNumber(val) {
+          if (typeof(val) === 'string') { val = Number(val.replace(/[$,%]+/g,"")); }
+          return val;
+        }
+
+        function convertCurrencyIntoNumber(currency_string) {
+          return Number(currency_string.replace(/[$,]+/g,""));
+        }
+
         function valueOutput(element) {
           var value = element.value;
           var output = element.parentNode.getElementsByTagName('output')[0] || element.parentNode.parentNode.getElementsByTagName('output')[0];
@@ -216,18 +231,20 @@
           );
         }
 
-        function convertCurrencyIntoNumber(currency_string) {
-          return Number(currency_string.replace(/[$,]+/g,""));
+        function recalculateHourly() {
+          return 150;
         }
 
-        function castIntoFormattedNumber(val) {
-          if (typeof(val) === 'string') { val = Number(val.replace(/[$,%]+/g,"")); }
-          return val;
-        }
+        /*
+         * DOM manipulation
+         **/
 
-        function getOutputElemById(id) {
-          return $('output' + id)[0];
-        }
+        // Handle increment/decrement
+        var incrementDecrementIds = Object.keys($assumptions).map(x => '#' + x + 'Increment, ' + '#' + x + 'Decrement,' ).join(' ').slice(0, -1);
+        $(incrementDecrementIds).on('click', function (e) {
+          updateCorrespondingOutput(e);
+          updateHourly();
+        });
 
         function updateCorrespondingOutput(element) {
           const eId = element.currentTarget.id;
@@ -243,16 +260,6 @@
           valueOutput(outputElement);
         }
 
-        var incrementDecrementIds = Object.keys($assumptions).map(x => '#' + x + 'Increment, ' + '#' + x + 'Decrement,' ).join(' ').slice(0, -1);
-        $(incrementDecrementIds).on('click', function (e) {
-          updateCorrespondingOutput(e);
-          updateHourly();
-        });
-
-        function recalculateHourly() {
-          return 150;
-        }
-
         // Recalculate the new hourly total and update the DOM
         function updateHourly() {
           var hourlyOutput = getOutputElemById($assumptions.hourly.outputElementId)
@@ -260,6 +267,7 @@
           valueOutput(hourlyOutput);
         }
 
+        // Updates the Annual Salary when the slider is moved
         $(document).on('input', 'input[type="range"]#annualInput, [data-rangeslider]', function(e) {
           valueOutput(e.target);
         });
@@ -270,11 +278,9 @@
           onInit: function() {
             initializeOutputs();
           },
-
           onSlide: function(position, value) {
               updateHourly();
           },
-
         });
       });
     </script>
