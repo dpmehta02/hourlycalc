@@ -31,10 +31,10 @@
           </tr>
           <tr>
             <td>
-              <output id="annualOutput" class="headlineOutput"></output>
+              <output id="annualOutput" class="headlineOutput currency"></output>
             </td>
             <td>
-              <output id="hourlyOutput" class="headlineOutput"></output>
+              <output id="hourlyOutput" class="headlineOutput currency"></output>
             </td>
           </tr>
         </table>
@@ -105,7 +105,7 @@
           <td class="label">Monthly Insurance</td>
           <td class="data">
             <input type="image" id="insuranceDecrement" src="assets/images/32px-Circle_arrow_down_font_awesome.svg.png" class="assumption-data" />
-            <output id="insuranceOutput" type="number" value="500" class="assumption-data"></output>
+            <output id="insuranceOutput" type="number" value="500" class="assumption-data currency"></output>
             <input type="image" id="insuranceIncrement" src="assets/images/32px-Circle_arrow_up_font_awesome.svg.png" class="assumption-data" />
           </td>
         </tr>
@@ -141,45 +141,104 @@
 
         $currencyOutputs = ['insuranceOutput']
 
-        // TODO: finish this data structure and use it across functions so no duplication
-        // const initialAssumptionOutputs = {
-        //   'workDays': {
-        //     'starting': 261,
-        //     'max': 365,
-        //     'min': 0,
-        //     currency: false
-        //   }
-        // }
+        const $assumptions = {
+          'annual': {
+            'starting': 150000,
+            'max': 250000,
+            'min': 50000,
+            'units': 'currency',
+            'step': 5000,
+            'outptutElementId': '#annualOutput'
+          },
+          'hourly': {
+            'starting': 0,
+            'max': 100000,
+            'min': 0,
+            'units': 'currency',
+            'step': 1,
+            'outptutElementId': '#hourlyOutput'
+          },
+          'workDays': {
+            'starting': 261,
+            'max': 365,
+            'min': 0,
+            'units': 'days',
+            'step': 1,
+            'outptutElementId': '#workDaysOutput'
+          },
+          'workHours': {
+            'starting': 8,
+            'max': 24,
+            'min': 0,
+            'units': 'hours',
+            'step': 0.5,
+            'outptutElementId': '#workHoursOutput'
+          },
+          'nonBillable': {
+            'starting': 1,
+            'max': 24,
+            'min': 0,
+            'units': 'hours',
+            'step': 0.5,
+            'outptutElementId': '#nonBillableOutput'
+          },
+          'pto': {
+            'starting': 15,
+            'max': 40,
+            'min': 0,
+            'units': 'days',
+            'step': 1,
+            'outptutElementId': '#ptoOutput'
+          },
+          'holidays': {
+            'starting': 10,
+            'max': 30,
+            'min': 0,
+            'units': 'days',
+            'step': 1,
+            'outptutElementId': '#holidaysOutput'
+          },
+          'sick': {
+            'starting': 5,
+            'max': 25,
+            'min': 0,
+            'units': 'days',
+            'step': 1,
+            'outptutElementId': '#sickOutput'
+          },
+          'daysBetween': {
+            'starting': 3,
+            'max': 14,
+            'min': 0,
+            'units': 'days',
+            'step': 1,
+            'outptutElementId': '#daysBetweenOutput'
+          },
+          'insurance': {
+            'starting': 500,
+            'max': 10000,
+            'min': 0,
+            'units': 'currency',
+            'step': 50,
+            'outptutElementId': '#insuranceOutput'
+          }
+        }
 
-        // Helpers
-        function valueOutput(element, currency = null) {
+        // Update the DOM with the new value
+        function valueOutput(element) {
           var value = element.value;
           var output = element.parentNode.getElementsByTagName('output')[0] || element.parentNode.parentNode.getElementsByTagName('output')[0];
-          var prepend = currency ? '$' : ''
-          output[textContent] = prepend + Number(value).toLocaleString();
+          output[textContent] = Number(value).toLocaleString();
         }
 
         function initializeOutputs() {
-          $annualOutput.value = $startingAnnual;
-          valueOutput($annualOutput, currency = true);
-          $hourlyOutput.value = $startingHourly;
-          valueOutput($hourlyOutput, currency = true);
-          $workDaysOutput.value = $startingWorkDays;
-          valueOutput($workDaysOutput);
-          $workHoursOutput.value = $startingWorkHours;
-          valueOutput($workHoursOutput);
-          $nonBillableOutput.value = $startingNonBillable;
-          valueOutput($nonBillableOutput);
-          $ptoOutput.value = $startingPto;
-          valueOutput($ptoOutput);
-          $holidaysOutput.value = $startingHolidays;
-          valueOutput($holidaysOutput);
-          $sickOutput.value = $startingSick;
-          valueOutput($sickOutput);
-          $daysBetweenOutput.value = $startingDaysBetween;
-          valueOutput($daysBetweenOutput);
-          $insuranceOutput.value = $startingInsurance;
-          valueOutput($insuranceOutput, currency = true);
+          Object.entries($assumptions).forEach(
+            ([k, v]) => {
+              var output = $('output#' + k + 'Output')[0];
+              output.value = v['starting'];
+              valueOutput(output);
+            }
+          );
         }
 
         function convertCurrencyIntoNumber(currency_string) {
@@ -244,8 +303,7 @@
           #daysBetweenDecrement, #insuranceIncrement, #insuranceDecrement"
         $(incrementDecrementIds).on('click', function (e) {
           var target = adjustAndReturnTarget(e);
-          var currency = $currencyOutputs.includes(target.id) ? true : null;
-          valueOutput(target, currency);
+          valueOutput(target);
           updateHourly();
         });
 
@@ -257,11 +315,11 @@
           $hourlyOutput.value = 150;
 
           // Update the DOM
-          valueOutput($hourlyOutput, currency = true);
+          valueOutput($hourlyOutput);
         }
 
         $(document).on('input', 'input[type="range"]#annualInput, [data-rangeslider]', function(e) {
-          valueOutput(e.target, currency = true);
+          valueOutput(e.target);
         });
 
         // Initialize range slider and outputs

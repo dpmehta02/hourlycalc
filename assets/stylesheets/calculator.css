@@ -79,6 +79,10 @@ table.assumptions td.data {
   font-weight: bold;
 }
 
+output.currency::before {
+  content:"$"
+}
+
 /*! rangeslider.js - v2.3.0 | (c) 2016 @andreruffert | MIT license | https://github.com/andreruffert/rangeslider.js */
 .rangeslider,
 .rangeslider__fill {
